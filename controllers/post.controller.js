@@ -5,6 +5,7 @@ import {
   updatePost,
   getPost,
   getTimelinePosts,
+  getAllTimelinePosts
 } from "../services/post.service.js";
 
 export const createPostController = async (req, res) => {
@@ -114,6 +115,27 @@ export const getTimelinePostsController = async (req, res) => {
     res.status(200).json({
       message: "Posts fetched successfully",
       data: timelinePosts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching posts",
+      error: error.message,
+    });
+  }
+};
+
+
+export const getAllTimelinePostsController = async (req, res) => {
+  try {
+    const allTimelinePosts = await getAllTimelinePosts();
+
+    if (!allTimelinePosts || allTimelinePosts.length === 0) {
+      return res.status(404).json({ message: "No posts found" });
+    }
+
+    res.status(200).json({
+      message: "Posts fetched successfully",
+      data: allTimelinePosts,
     });
   } catch (error) {
     res.status(500).json({

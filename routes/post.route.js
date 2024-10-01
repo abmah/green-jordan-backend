@@ -1,5 +1,5 @@
 import express from "express"
-import { createPostController, deletePostController, likeOrUnlikePostController, updatePostController, getPostController, getTimelinePostsController } from "../controllers/post.controller.js";
+import { createPostController, deletePostController, likeOrUnlikePostController, updatePostController, getPostController, getTimelinePostsController, getAllTimelinePostsController } from "../controllers/post.controller.js";
 import { parser } from "../config/cloudinary.js";
 const router = express.Router()
 
@@ -20,6 +20,8 @@ router.get("/get-post/:id", getPostController)
 
 
 router.get("/get-timeline-posts", getTimelinePostsController)
+
+router.get('/get-all-posts', getAllTimelinePostsController)
 
 
 

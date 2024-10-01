@@ -93,3 +93,14 @@ export const getTimelinePosts = async (body) => {
     throw error;
   }
 };
+
+
+
+export const getAllTimelinePosts = async () => {
+  try {
+    const posts = await postModel.find();
+    return posts;
+  } catch (error) {
+    throw error;
+  }
+};
