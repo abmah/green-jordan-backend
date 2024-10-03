@@ -69,6 +69,7 @@ export const likeOrUnlikePostController = async (req, res) => {
     const { post, liked } = await likeOrUnlikePost(req.params, req.body);
 
     if (!post) {
+
       return res.status(404).json({ message: "Post not found" });
     }
 

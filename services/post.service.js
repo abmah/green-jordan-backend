@@ -10,6 +10,7 @@ export const createPost = async (body, fileUrl) => {
     await newPost.save();
     return newPost;
   } catch (error) {
+
     throw error;
   }
 };
@@ -98,7 +99,8 @@ export const getTimelinePosts = async (body) => {
 
 export const getAllTimelinePosts = async () => {
   try {
-    const posts = await postModel.find();
+    // Fetch all posts and include specific user details
+    const posts = await postModel.find().populate("userId", "username profilePicture");
     return posts;
   } catch (error) {
     throw error;

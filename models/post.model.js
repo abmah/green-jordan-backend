@@ -1,9 +1,25 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
+
+
+const commentSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+  text: {
+    type: String,
+    required: true
+  },
+}, { timestamps: true });
+
+
 const postSchema = new Schema({
   userId: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   description: {
@@ -12,18 +28,17 @@ const postSchema = new Schema({
   },
   image: {
     type: String,
-    default: ""
+    default: "",
+    required: true
   },
   likes: {
     type: Array,
     default: []
   },
-},
-  {
-    timestamps: true
-  }
-)
+  comments: [commentSchema],
+}, {
+  timestamps: true
+});
 
 
-export default mongoose.model("Post", postSchema)
-
+export default mongoose.model("Post", postSchema);
