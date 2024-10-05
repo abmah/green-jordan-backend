@@ -113,6 +113,3 @@ export const unfollowUser = async (currentUserData, targetUserData) => {
     }
 }
 
-
-
-

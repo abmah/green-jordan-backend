@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-
-
 const commentSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
@@ -12,19 +10,18 @@ const commentSchema = new Schema({
   text: {
     type: String,
     required: true
-  },
+  }
 }, { timestamps: true });
-
 
 const postSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: true
   },
   description: {
     type: String,
-    required: true,
+    required: true
   },
   image: {
     type: String,
@@ -35,10 +32,9 @@ const postSchema = new Schema({
     type: Array,
     default: []
   },
-  comments: [commentSchema],
+  comments: [commentSchema]
 }, {
   timestamps: true
 });
-
 
 export default mongoose.model("Post", postSchema);

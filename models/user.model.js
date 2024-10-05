@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-
-
 const userSchema = new Schema({
-
   username: {
     type: String,
     required: true,
@@ -14,32 +11,30 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   profilePicture: {
     type: String,
-    default: ""
+    default: "",
   },
-
   coverPicture: {
     type: String,
-    default: ""
+    default: "",
   },
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  desc: {
+  bio: {
     type: String,
-    max: 50
+    max: 200,
   },
   from: {
     type: Number,
-    // required: true,
     enum: [
       1, // Jerash
       2, // Irbid
@@ -52,31 +47,59 @@ const userSchema = new Schema({
       9, // Karak
       10, // Tafila
       11, // Ma'an
-      12  // Aqaba
-    ]
+      12, // Aqaba
+    ],
   },
-
   followings: {
     type: Array,
-    default: []
+    default: [],
   },
   followers: {
     type: Array,
-    default: []
+    default: [],
   },
   points: {
     type: Number,
-    default: 0
+    default: 0,
   },
-
   allTimePoints: {
     type: Number,
-    default: 0
+    default: 0,
+  },
+  streak: {
+    type: Number,
+    default: 0,
+  },
+  lastChallengeCompleted: {
+    type: Date,
+    default: null,
+  },
+  completedChallenges: [
+    {
+      challengeId: {
+        type: Schema.Types.ObjectId,
+        ref: "Challenge",
+      },
+      completedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  dailyChallengesAssigned: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Challenge",
+    },
+  ],
+  lastDailyAssignedAt: {
+    type: Date,
+    default: null,
+  },
+  lastFreeChallengeClaimedAt: {
+    type: Date,
+    default: null,
+  },
+});
 
-  }
-
-
-})
-
-
-export default mongoose.model("User", userSchema)
+export default mongoose.model("User", userSchema);

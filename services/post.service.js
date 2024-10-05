@@ -1,6 +1,7 @@
 import postModel from "../models/post.model.js";
 import userModel from "../models/user.model.js";
 
+// Create a new post
 export const createPost = async (body, fileUrl) => {
   try {
     const newPost = new postModel({
@@ -10,11 +11,11 @@ export const createPost = async (body, fileUrl) => {
     await newPost.save();
     return newPost;
   } catch (error) {
-
     throw error;
   }
 };
 
+// Update an existing post
 export const updatePost = async (params, body) => {
   try {
     const updatedPost = await postModel.findById(params.id);
@@ -32,14 +33,13 @@ export const updatePost = async (params, body) => {
   }
 };
 
-
-
+// Delete a post
 export const deletePost = async (params, body) => {
   try {
     const deletedPost = await postModel.findById(params.id);
     if (body.userId === deletedPost.userId) {
       await postModel.findByIdAndDelete(params.id);
-      return deletePost
+      return deletedPost;
     } else {
       throw new Error("You can only delete your posts");
     }
@@ -48,8 +48,7 @@ export const deletePost = async (params, body) => {
   }
 };
 
-
-
+// Like or Unlike a post
 export const likeOrUnlikePost = async (params, body) => {
   try {
     const post = await postModel.findById(params.id);
@@ -71,11 +70,17 @@ export const likeOrUnlikePost = async (params, body) => {
 };
 
 
-
 export const getPost = async (params) => {
   try {
-    const post = await postModel.findById(params.id);
-    return post
+    const post = await postModel
+      .findById(params.id)
+      .populate("userId", "username profilePicture")
+      .populate({
+        path: 'comments.userId',
+        select: 'username profilePicture'
+      });
+
+    return post;
   } catch (error) {
     throw error;
   }
@@ -87,20 +92,34 @@ export const getTimelinePosts = async (body) => {
     const currentUser = await userModel.findById(body.userId);
     const following = currentUser.followings || [];
     const allUsers = [...following, body.userId];
-    const posts = await postModel.find({ userId: { $in: allUsers } });
-    return posts;
 
+
+    const posts = await postModel
+      .find({ userId: { $in: allUsers } })
+      .populate("userId", "username profilePicture")
+      .populate({
+        path: 'comments.userId',
+        select: 'username profilePicture'
+      });
+
+    return posts;
   } catch (error) {
     throw error;
   }
 };
 
 
-
 export const getAllTimelinePosts = async () => {
   try {
-    // Fetch all posts and include specific user details
-    const posts = await postModel.find().populate("userId", "username profilePicture");
+
+    const posts = await postModel
+      .find()
+      .populate("userId", "username profilePicture")
+      .populate({
+        path: 'comments.userId',
+        select: 'username profilePicture'
+      });
+
     return posts;
   } catch (error) {
     throw error;

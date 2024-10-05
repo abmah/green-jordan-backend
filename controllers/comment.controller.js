@@ -1,9 +1,8 @@
-// comment.controller.js
 import { addComment, getComments } from "../services/comment.service.js";
 
-export const addCommentController = async (req, res) => {
+export const addCommentController = async (req, res, next) => {
   try {
-    const postId = req.params.id;  // Use postId from req.params.id
+    const postId = req.params.id;
     const commentData = {
       userId: req.body.userId,
       text: req.body.text,
@@ -15,16 +14,13 @@ export const addCommentController = async (req, res) => {
       data: comments,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Error adding comment",
-      error: error.message,
-    });
+    next(error);
   }
 };
 
-export const getCommentsController = async (req, res) => {
+export const getCommentsController = async (req, res, next) => {
   try {
-    const postId = req.params.id;  // Use postId from req.params.id
+    const postId = req.params.id;
     const comments = await getComments(postId);
 
     res.status(200).json({
@@ -32,9 +28,6 @@ export const getCommentsController = async (req, res) => {
       data: comments,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "Error fetching comments",
-      error: error.message,
-    });
+    next(error);
   }
 };
