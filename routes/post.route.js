@@ -24,7 +24,7 @@ router.get("/get-post/:id", getPostController);
 router.get("/get-timeline-posts", getTimelinePostsController);
 router.get("/get-all-posts", getAllTimelinePostsController);
 
-// comments 
+
 
 
 router.post('/comments/:id', addCommentController);

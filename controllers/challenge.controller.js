@@ -1,4 +1,4 @@
-// challenge.controller.js
+
 
 import {
   assignDailyChallengesService,
@@ -17,7 +17,7 @@ export const assignDailyChallenges = async (req, res, next) => {
     const response = await assignDailyChallengesService(userId);
     res.status(200).json(response);
   } catch (error) {
-    next(new Error('Failed to assign daily challenges. Please try again later.'));
+    next(error);
   }
 };
 

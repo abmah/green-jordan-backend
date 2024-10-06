@@ -1,7 +1,7 @@
 import postModel from "../models/post.model.js";
 import userModel from "../models/user.model.js";
 
-// Create a new post
+
 export const createPost = async (body, fileUrl) => {
   try {
     const newPost = new postModel({
@@ -15,7 +15,6 @@ export const createPost = async (body, fileUrl) => {
   }
 };
 
-// Update an existing post
 export const updatePost = async (params, body) => {
   try {
     const updatedPost = await postModel.findById(params.id);
@@ -33,7 +32,7 @@ export const updatePost = async (params, body) => {
   }
 };
 
-// Delete a post
+
 export const deletePost = async (params, body) => {
   try {
     const deletedPost = await postModel.findById(params.id);
@@ -48,7 +47,7 @@ export const deletePost = async (params, body) => {
   }
 };
 
-// Like or Unlike a post
+
 export const likeOrUnlikePost = async (params, body) => {
   try {
     const post = await postModel.findById(params.id);

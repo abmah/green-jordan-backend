@@ -8,11 +8,56 @@ import {
   getAllTimelinePosts
 } from "../services/post.service.js";
 
+
+
+import userModel from "../models/user.model.js";
+import challengeModel from "../models/challenge.model.js";
+import { completeChallengeService } from "../services/challenge.service.js";
+
 export const createPostController = async (req, res) => {
   try {
-    // Access the file's Cloudinary secure URL here
-    const fileUrl = req.file?.path || req.file?.secure_url;
+    const { userId, challengeId } = req.body;
 
+    if (!userId || !challengeId) {
+      return res.status(400).json({
+        message: "User ID and Challenge ID are required.",
+      });
+    }
+
+
+    const user = await userModel.findById(userId).populate("dailyChallengesAssigned");
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const challenge = await challengeModel.findById(challengeId);
+    if (!challenge) {
+      return res.status(404).json({ message: "Challenge not found." });
+    }
+
+
+    const assignedChallenge = user.dailyChallengesAssigned.find((c) =>
+      c._id.equals(challengeId)
+    );
+    if (!assignedChallenge) {
+      return res.status(403).json({
+        message: "This challenge is not part of the assigned daily challenges.",
+      });
+    }
+
+    const challengeCompleted = user.completedChallenges.some((c) =>
+      c.challengeId.equals(challengeId)
+    );
+    if (challengeCompleted) {
+      return res.status(403).json({
+        message: "You have already completed this challenge.",
+      });
+    }
+
+
+    const completionResponse = await completeChallengeService(userId, challengeId);
+
+    const fileUrl = req.file?.path || req.file?.secure_url;
     if (!fileUrl) {
       return res.status(400).json({
         message: "Image upload failed",
@@ -20,10 +65,18 @@ export const createPostController = async (req, res) => {
     }
 
     const newPost = await createPost(req.body, fileUrl);
+
     res.status(200).json({
-      message: "Post created successfully",
+      message: `Challenge completed and post created successfully for challenge: ${challenge.title}`,
+      challengeDetails: {
+        title: challenge.title,
+        description: challenge.description,
+        points: challenge.points,
+        completionDetails: completionResponse,
+      },
       data: newPost,
     });
+
   } catch (error) {
     res.status(500).json({
       message: "Error creating post",
@@ -35,7 +88,7 @@ export const createPostController = async (req, res) => {
 export const updatePostController = async (req, res) => {
   try {
     const updatedPost = await updatePost(req.params, req.body);
-    // post to be edited // user id
+
     res.status(200).json({
       message: "Post updated successfully",
       data: updatedPost,
@@ -51,7 +104,7 @@ export const updatePostController = async (req, res) => {
 export const deletePostController = async (req, res) => {
   try {
     const deletedPost = await deletePost(req.params, req.body);
-    // post to be edited // user id
+
     res.status(200).json({
       message: "Post deleted successfully",
       data: deletedPost,
