@@ -124,3 +124,21 @@ export const getAllTimelinePosts = async () => {
     throw error;
   }
 };
+
+
+export const getUserPosts = async (userId) => {
+  try {
+    const posts = await postModel
+      .find({ userId }) // Use userId to find posts by the user
+      .populate("userId", "username profilePicture")
+      .populate({
+        path: 'comments.userId',
+        select: 'username profilePicture',
+      });
+
+    return posts;
+  } catch (error) {
+    throw error;
+  }
+};
+

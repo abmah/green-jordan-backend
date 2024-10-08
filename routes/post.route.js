@@ -7,6 +7,7 @@ import {
   getPostController,
   getTimelinePostsController,
   getAllTimelinePostsController,
+  getUserPostsController
 } from "../controllers/post.controller.js";
 
 import {
@@ -23,6 +24,7 @@ router.put("/like-post/:id", likeOrUnlikePostController);
 router.get("/get-post/:id", getPostController);
 router.get("/get-timeline-posts", getTimelinePostsController);
 router.get("/get-all-posts", getAllTimelinePostsController);
+router.get('/get-user-posts/:id', getUserPostsController);
 
 
 
