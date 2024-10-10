@@ -4,7 +4,7 @@ import userModel from "../models/user.model.js";
 import moment from "moment";
 
 export const assignDailyChallengesService = async (userId) => {
-  console.log(userId);
+
 
   const user = await userModel.findById(userId).populate("dailyChallengesAssigned");
   if (!user) throw new Error("User not found.");

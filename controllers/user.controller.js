@@ -55,6 +55,7 @@ export const deleteUserController = async (req, res) => {
 
 export const getUserController = async (req, res) => {
   const userId = req.params.id;
+
   try {
     const user = await getUserById(userId);
     if (!user) {
