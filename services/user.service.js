@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import userModel from '../models/user.model.js';
 import postModel from '../models/post.model.js';
+import { getUserPosts } from './post.service.js';
+import challengeModel from '../models/challenge.model.js';
 
 export const getUserById = async (userId) => {
     try {
@@ -113,3 +115,43 @@ export const unfollowUser = async (currentUserData, targetUserData) => {
     }
 }
 
+
+
+export const updateProfilePicture = async (userId, fileUrl) => {
+    try {
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            { $set: { profilePicture: fileUrl } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            throw new Error('User not found');
+        }
+
+        return updatedUser;
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+export const getFullUser = async (userId) => {
+    try {
+        const user = await userModel.findById(userId).populate('completedChallenges');
+        if (!user) {
+            return null;
+        }
+        const { password, completedChallenges, ...data } = user._doc;
+
+        const userPosts = await getUserPosts(userId);
+
+        return {
+            ...data,
+            posts: userPosts,
+        };
+    } catch (error) {
+        next(error)
+    }
+};

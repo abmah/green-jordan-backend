@@ -1,4 +1,4 @@
-import { getUserById, updateUser, deleteUser, unfollowUser, followUser } from "../services/user.service.js";
+import { getUserById, updateUser, deleteUser, unfollowUser, followUser, updateProfilePicture, getFullUser } from "../services/user.service.js";
 
 export const updateUserController = async (req, res) => {
   const userId = req.params.id;
@@ -108,3 +108,53 @@ export const unfollowUserController = async (req, res) => {
 
   }
 };
+
+
+
+export const updateProfilePictureController = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const fileUrl = req.file?.path || req.file?.secure_url;
+    if (!fileUrl) {
+      return res.status(400).json({
+        message: "Image upload failed",
+      });
+    }
+
+
+    const updatedUser = await updateProfilePicture(userId, fileUrl);
+
+    res.status(200).json({
+      message: "Profile picture updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+    // res.status(500).json({
+    //   message: "Error updating profile picture",
+    //   error: error.message,
+    // });
+  }
+};
+
+
+
+export const getFullUserController = async (req, res) => {
+  try {
+
+    const userId = req.params.id;
+
+    const data = await getFullUser(userId);
+
+    res.status(200).json({
+      message: 'User fetched successfully',
+      data
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user', error });
+
+  }
+};
+
