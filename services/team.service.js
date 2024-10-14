@@ -94,7 +94,7 @@ export const getUserTeam = async (userId) => {
 
 
 
-// Service to send a join request
+
 export const sendJoinRequest = async (teamId, userId) => {
   try {
     const team = await teamModel.findById(teamId);
@@ -106,6 +106,11 @@ export const sendJoinRequest = async (teamId, userId) => {
     // Check if the user is already a member of the team
     if (team.members.includes(userId)) {
       throw new Error("User is already a member of this team.");
+    }
+
+    // Check if the user already has a team
+    if (user.team) {
+      throw new Error("User is already part of a team.");
     }
 
     // Check if user has already requested to join
@@ -131,6 +136,11 @@ export const acceptJoinRequest = async (teamId, userId) => {
     if (!team) throw new Error("Team not found.");
     if (!user) throw new Error("User not found.");
 
+    // Check if the user is already in a team
+    if (user.team) {
+      throw new Error("User is already in a team and cannot join another team.");
+    }
+
     // Check if the user is already a member of the team
     if (team.members.includes(userId)) {
       throw new Error("User is already a member of this team.");
@@ -149,7 +159,7 @@ export const acceptJoinRequest = async (teamId, userId) => {
 
     return team;
   } catch (error) {
-    throw new Error(`Failed to accept join request: ${error.message}`); // Improved error message
+    throw new Error(`Failed to accept join request: ${error.message}`);
   }
 };
 
@@ -170,7 +180,7 @@ export const rejectJoinRequest = async (teamId, userId) => {
 };
 
 // Service to remove a member from the team (admin only)
-export const removeMember = async (teamId, memberId) => {
+export const removeMember = async (teamId, memberId, adminId) => {
   try {
     const team = await teamModel.findById(teamId);
     const user = await userModel.findById(memberId);
@@ -183,17 +193,22 @@ export const removeMember = async (teamId, memberId) => {
       throw new Error("User is not a member of this team.");
     }
 
+    // Prevent the admin from removing themselves
+    if (team.admin.equals(memberId)) {
+      throw new Error("The team admin cannot remove themselves from the team.");
+    }
+
     // Remove the member from the team
     team.members = team.members.filter((member) => !member.equals(memberId));
     await team.save();
 
-    // Update user to reflect that they are no longer in the team
+    // Update the user to reflect that they are no longer in the team
     user.team = null;
     await user.save();
 
     return team;
   } catch (error) {
-    throw new Error(`Failed to remove member: ${error.message}`); // Improved error message
+    throw new Error(`Failed to remove member: ${error.message}`);
   }
 };
 
@@ -226,14 +241,22 @@ export const leaveTeam = async (teamId, userId) => {
 };
 
 // Service to get team members
+// Service to get team members
 export const getTeamMembers = async (teamId) => {
   try {
     const team = await teamModel.findById(teamId).populate("members");
     if (!team) throw new Error("Team not found.");
 
-    const data = team.members.filter((member) => {
-      member.password = undefined;
-      return member;
+    const data = team.members.map((member) => {
+      const memberData = member.toObject(); // Convert to plain object
+
+      // Add the teamAdmin flag based on the current team
+      memberData.teamAdmin = member._id.equals(team.admin); // Check if the member is the team admin
+
+      // Optionally remove sensitive information
+      memberData.password = undefined; // Ensure password is not included
+
+      return memberData; // Return the modified member object
     });
 
     return data;
@@ -242,6 +265,7 @@ export const getTeamMembers = async (teamId) => {
     throw new Error(`Failed to fetch team members: ${error.message}`);
   }
 };
+
 
 export const getAllTeams = async () => {
   try {
