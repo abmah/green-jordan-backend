@@ -100,6 +100,11 @@ const userSchema = new Schema({
     type: Date,
     default: null,
   },
+  team: {
+    type: Schema.Types.ObjectId,
+    ref: "Team",
+    default: null,
+  },
 });
 
 export default mongoose.model("User", userSchema);
