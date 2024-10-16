@@ -11,6 +11,7 @@ import {
   getTeamMembers,
   getUserTeam,
   getAllTeams,
+  getTeamPosts
 } from "../services/team.service.js";
 
 // Controller to create a new team
@@ -329,6 +330,33 @@ export const getAllTeamsController = async (req, res) => {
     console.error(error);
     res.status(500).json({
       message: "Error fetching teams.",
+      error: error.message,
+    });
+  }
+};
+
+
+
+// Controller to get posts from all team members
+export const getTeamPostsController = async (req, res) => {
+  try {
+    const { teamId } = req.params;
+
+    if (!teamId) {
+      return res.status(400).json({ message: "Team ID is required." });
+    }
+
+    // Fetch posts using the service method
+    const posts = await getTeamPosts(teamId);
+
+    return res.status(200).json({
+      message: "Team posts fetched successfully.",
+      data: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Error fetching team posts.",
       error: error.message,
     });
   }

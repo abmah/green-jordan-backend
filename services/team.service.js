@@ -1,5 +1,6 @@
 import teamModel from "../models/team.model.js";
 import userModel from "../models/user.model.js";
+import postModel from "../models/post.model.js";
 
 // Service to create a new team
 export const createTeam = async (userId, teamData) => {
@@ -59,10 +60,20 @@ export const deleteTeam = async (teamId) => {
   }
 };
 
-// Service to get team by ID
+
 export const getTeamById = async (teamId) => {
   try {
-    const team = await teamModel.findById(teamId);
+    const team = await teamModel
+      .findById(teamId)
+      .populate({
+        path: 'members',
+        select: 'username profilePicture points allTimePoints', // Select the fields to return
+      })
+      .populate({
+        path: 'joinRequests.userId', // Populate the userId in joinRequests
+        select: 'username profilePicture points allTimePoints', // Select the fields to return
+      });
+
     if (!team) throw new Error("Team not found.");
 
     return team;
@@ -70,6 +81,7 @@ export const getTeamById = async (teamId) => {
     throw new Error(`Failed to fetch team: ${error.message}`); // Improved error message
   }
 };
+
 
 // service to get user team
 export const getUserTeam = async (userId) => {
@@ -259,6 +271,7 @@ export const getTeamMembers = async (teamId) => {
       return memberData; // Return the modified member object
     });
 
+
     return data;
 
   } catch (error) {
@@ -275,3 +288,32 @@ export const getAllTeams = async () => {
     throw new Error(`Failed to fetch teams: ${error.message}`);
   }
 }
+
+
+
+export const getTeamPosts = async (teamId) => {
+  try {
+    // Find the team by ID and populate the members array
+    const team = await teamModel.findById(teamId).populate("members");
+
+    if (!team) {
+      throw new Error("Team not found.");
+    }
+
+    // Get the member IDs from the team
+    const memberIds = team.members.map(member => member._id);
+
+    // Find posts from these team members
+    const posts = await postModel
+      .find({ userId: { $in: memberIds } })  // Get posts where userId is in the list of memberIds
+      .populate("userId", "username profilePicture")  // Populate the user details for each post
+      .populate({
+        path: 'comments.userId',
+        select: 'username profilePicture'
+      });
+
+    return posts;
+  } catch (error) {
+    throw new Error(`Failed to fetch team posts: ${error.message}`);
+  }
+};

@@ -11,7 +11,8 @@ import {
   leaveTeamController,
   getTeamMembersController,
   getUserTeamController,
-  getAllTeamsController
+  getAllTeamsController,
+  getTeamPostsController,
 } from "../controllers/team.controller.js";
 
 const router = express.Router();
@@ -51,5 +52,8 @@ router.get("/members/:teamId", getTeamMembersController);
 
 // Route to get list of all teams
 router.get("/", getAllTeamsController);
+
+// Route to get posts from all team members
+router.get("/posts/:teamId", getTeamPostsController);
 
 export default router;
