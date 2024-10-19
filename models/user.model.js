@@ -105,6 +105,18 @@ const userSchema = new Schema({
     ref: "Team",
     default: null,
   },
+  redeemedItems: [
+    {
+      redeemableId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Redeemable',
+      },
+      redeemedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 export default mongoose.model("User", userSchema);

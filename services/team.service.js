@@ -51,14 +51,22 @@ export const deleteTeam = async (teamId) => {
     const team = await teamModel.findById(teamId);
     if (!team) throw new Error("Team not found.");
 
-    // Remove the team from all members' records
+    // Cascade: Remove the team reference from all users who are members or admin of this team
     await userModel.updateMany({ team: teamId }, { $unset: { team: "" } });
 
+    // Optionally, remove all posts related to the team members (if required)
+    // If you want to delete posts related to the team members, uncomment the following line
+    // await postModel.deleteMany({ userId: { $in: team.members } });
+
+    // Finally, delete the team
     await teamModel.findByIdAndDelete(teamId);
+
+    return { message: "Team and related references successfully deleted." };
   } catch (error) {
-    throw new Error(`Failed to delete team: ${error.message}`); // Improved error message
+    throw new Error(`Failed to delete team: ${error.message}`);
   }
 };
+
 
 
 export const getTeamById = async (teamId) => {
@@ -280,14 +288,30 @@ export const getTeamMembers = async (teamId) => {
 };
 
 
+// Service to get all teams with total team points (sum of members' points)
 export const getAllTeams = async () => {
   try {
     const teams = await teamModel.find();
-    return teams;
+
+    // For each team, calculate the total points from its members
+    const teamsWithTotalPoints = await Promise.all(
+      teams.map(async (team) => {
+        const members = await userModel.find({ team: team._id }, 'points'); // Only get members' points
+        const totalPoints = members.reduce((sum, member) => sum + member.points, 0); // Sum the points
+
+        return {
+          ...team.toObject(),
+          totalPoints, // Add the totalPoints field to the team
+        };
+      })
+    );
+
+    return teamsWithTotalPoints;
   } catch (error) {
-    throw new Error(`Failed to fetch teams: ${error.message}`);
+    throw new Error(`Failed to fetch teams with total points: ${error.message}`);
   }
-}
+};
+
 
 
 
