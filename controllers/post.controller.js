@@ -160,8 +160,10 @@ export const getPostController = async (req, res) => {
 };
 
 export const getTimelinePostsController = async (req, res) => {
+  console.log(req.body);
+  const userId = req.params.userId;
   try {
-    const timelinePosts = await getTimelinePosts(req.body);
+    const timelinePosts = await getTimelinePosts(userId);
 
     if (!timelinePosts || timelinePosts.length === 0) {
       return res.status(404).json({ message: "No posts found" });

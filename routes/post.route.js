@@ -22,7 +22,7 @@ router.put("/update-post/:id", updatePostController);
 router.delete("/delete-post/:id", deletePostController);
 router.put("/like-post/:id", likeOrUnlikePostController);
 router.get("/get-post/:id", getPostController);
-router.get("/get-timeline-posts", getTimelinePostsController);
+router.get("/get-timeline-posts/:userId", getTimelinePostsController);
 router.get("/get-all-posts", getAllTimelinePostsController);
 router.get('/get-user-posts/:id', getUserPostsController);
 

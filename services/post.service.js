@@ -86,11 +86,12 @@ export const getPost = async (params) => {
 }
 
 
-export const getTimelinePosts = async (body) => {
+export const getTimelinePosts = async (userId) => {
+
   try {
-    const currentUser = await userModel.findById(body.userId);
+    const currentUser = await userModel.findById(userId);
     const following = currentUser.followings || [];
-    const allUsers = [...following, body.userId];
+    const allUsers = [...following, userId];
 
 
     const posts = await postModel

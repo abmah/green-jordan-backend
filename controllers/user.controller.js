@@ -77,7 +77,6 @@ export const getUserController = async (req, res) => {
 
 export const followUserController = async (req, res) => {
   try {
-
     const data = await followUser(req.body, req.params);
 
 
