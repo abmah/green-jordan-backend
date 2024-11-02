@@ -18,32 +18,38 @@ export const getUserById = async (userId) => {
     }
 };
 
-export const updateUser = async (userId, updateData) => {
-    if (updateData.password) {
-        try {
-            updateData.password = await bcrypt.hash(updateData.password, 10);
-        } catch (error) {
-            throw error;
-        }
-    }
-
+// services/user.service.js
+// services/user.service.js
+export const updateUsername = async (userId, newUsername) => {
     try {
-        const user = await userModel.findByIdAndUpdate(
-            userId,
-            { $set: updateData },
-            { new: true }
-        );
+        const user = await userModel.findById(userId);
 
+        // Check if user exists
         if (!user) {
             return null;
         }
 
-        const { password, ...data } = user._doc;
+        // Check if the new username is the same as the current username
+        if (user.username === newUsername) {
+            return { message: "The new username is the same as the current username." };
+        }
+
+        // Proceed with the update
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            { $set: { username: newUsername } },
+            { new: true }
+        );
+
+        const { password, ...data } = updatedUser._doc;  // Exclude the password from response
         return data;
+
     } catch (error) {
-        throw error;
+        throw new Error("Failed to update username: " + error.message);
     }
 };
+
+
 
 export const deleteUser = async (userId) => {
     try {

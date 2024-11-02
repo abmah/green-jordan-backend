@@ -1,31 +1,42 @@
-import { getUserById, updateUser, deleteUser, unfollowUser, followUser, updateProfilePicture, getFullUser } from "../services/user.service.js";
+import { getUserById, updateUsername, deleteUser, unfollowUser, followUser, updateProfilePicture, getFullUser } from "../services/user.service.js";
 
-export const updateUserController = async (req, res) => {
+// controllers/user.controller.js
+// controllers/user.controller.js
+export const updateUsernameController = async (req, res) => {
   const userId = req.params.id;
+  const { username } = req.body;  // Get new username from the request body
+
   try {
     const user = await getUserById(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Check if the request is from the user themselves or an admin
     if (req.body.userId === userId || req.body.isAdmin) {
-      const updatedUser = await updateUser(userId, req.body);
-      const { password, ...data } = updatedUser;
+      const updateResponse = await updateUsername(userId, username);  // Call the updated function
+
+      // Check if the response indicates the username is the same
+      if (updateResponse.message) {
+        return res.status(400).json(updateResponse);  // Return the message if no update occurred
+      }
 
       res.status(200).json({
-        user: data,
-        message: 'User Updated Successfully',
+        user: updateResponse,
+        message: 'Username updated successfully',
       });
     } else {
       return res.status(403).json({
-        message: "You can update only your account!",
+        message: "You can only update your own account!",
       });
     }
   } catch (error) {
-    console.error('Error updating user:', error);
+    console.error('Error updating username:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+
 
 export const deleteUserController = async (req, res) => {
   const userId = req.params.id;

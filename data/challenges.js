@@ -1,7 +1,9 @@
 export default [
   {
     "title": "Plant a Tree",
+    "titleAR": "ازرع شجرة",
     "description": "Plant a tree in your community and help reduce CO2 emissions.",
+    "descriptionAR": "ازرع شجرة في مجتمعك وساهم في تقليل انبعاثات ثاني أكسيد الكربون.",
     "image": "/images/tree.jpg",
     "points": 50,
     "category": "planting",
@@ -10,7 +12,9 @@ export default [
   },
   {
     "title": "Collect 5kg of Garbage",
+    "titleAR": "اجمع 5 كجم من القمامة",
     "description": "Collect 5kg of litter from your local park or beach.",
+    "descriptionAR": "اجمع 5 كجم من النفايات من حديقتك المحلية أو الشاطئ.",
     "image": "/images/garbage.jpg",
     "points": 40,
     "category": "cleanup",
@@ -19,7 +23,9 @@ export default [
   },
   {
     "title": "Reduce Water Usage",
+    "titleAR": "قلل من استخدام المياه",
     "description": "Reduce your water consumption for a week by taking shorter showers.",
+    "descriptionAR": "قلل من استهلاك المياه لمدة أسبوع عن طريق تقليل مدة الاستحمام.",
     "image": "/images/water.jpg",
     "points": 30,
     "category": "environment",
@@ -28,7 +34,9 @@ export default [
   },
   {
     "title": "Turn Off Unused Lights",
+    "titleAR": "أطفئ الأنوار غير المستخدمة",
     "description": "Make sure to turn off lights when not in use to save energy.",
+    "descriptionAR": "تأكد من إطفاء الأنوار عند عدم استخدامها لتوفير الطاقة.",
     "image": "/images/lights.jpg",
     "points": 10,
     "category": "environment",
@@ -37,7 +45,9 @@ export default [
   },
   {
     "title": "Recycle Plastic",
+    "titleAR": "أعد تدوير البلاستيك",
     "description": "Recycle at least 10 plastic items this week.",
+    "descriptionAR": "أعد تدوير 10 قطع بلاستيكية على الأقل هذا الأسبوع.",
     "image": "/images/recycle.jpg",
     "points": 25,
     "category": "environment",
@@ -46,7 +56,9 @@ export default [
   },
   {
     "title": "Use Public Transport",
+    "titleAR": "استخدم وسائل النقل العامة",
     "description": "Use public transportation instead of driving for a week.",
+    "descriptionAR": "استخدم وسائل النقل العامة بدلاً من القيادة لمدة أسبوع.",
     "image": "/images/transport.jpg",
     "points": 35,
     "category": "environment",
@@ -55,7 +67,9 @@ export default [
   },
   {
     "title": "Compost Organic Waste",
+    "titleAR": "حول النفايات العضوية إلى سماد",
     "description": "Start composting your organic kitchen waste.",
+    "descriptionAR": "ابدأ بتحويل النفايات العضوية في مطبخك إلى سماد.",
     "image": "/images/compost.jpg",
     "points": 30,
     "category": "environment",
@@ -64,7 +78,9 @@ export default [
   },
   {
     "title": "Organize a Cleanup Event",
+    "titleAR": "نظم حدث تنظيف",
     "description": "Organize or participate in a community cleanup event.",
+    "descriptionAR": "نظم أو شارك في حدث لتنظيف المجتمع.",
     "image": "/images/cleanup.jpg",
     "points": 60,
     "category": "cleanup",
@@ -73,7 +89,9 @@ export default [
   },
   {
     "title": "Switch to Reusable Bags",
+    "titleAR": "استخدم الأكياس القابلة لإعادة الاستخدام",
     "description": "Stop using plastic bags and switch to reusable cloth bags.",
+    "descriptionAR": "توقف عن استخدام الأكياس البلاستيكية وانتقل إلى الأكياس القماشية القابلة لإعادة الاستخدام.",
     "image": "/images/bags.jpg",
     "points": 15,
     "category": "environment",
@@ -82,7 +100,9 @@ export default [
   },
   {
     "title": "Carpool to Work",
+    "titleAR": "شارك في النقل إلى العمل",
     "description": "Carpool to work with colleagues for a week to reduce your carbon footprint.",
+    "descriptionAR": "شارك في التنقل إلى العمل مع الزملاء لمدة أسبوع لتقليل بصمتك الكربونية.",
     "image": "/images/carpool.jpg",
     "points": 30,
     "category": "environment",
@@ -91,7 +111,9 @@ export default [
   },
   {
     "title": "Reduce Plastic Use",
+    "titleAR": "قلل من استخدام البلاستيك",
     "description": "Go a day without using any single-use plastic products.",
+    "descriptionAR": "امضِ يوماً كاملاً دون استخدام أي منتجات بلاستيكية للاستخدام الواحد.",
     "image": "/images/plastic.jpg",
     "points": 25,
     "category": "environment",
@@ -100,7 +122,9 @@ export default [
   },
   {
     "title": "Clean Up a Local River",
+    "titleAR": "نظف نهر محلي",
     "description": "Help clean up a polluted local river or stream.",
+    "descriptionAR": "ساعد في تنظيف نهر أو مجرى مائي ملوث في منطقتك.",
     "image": "/images/river.jpg",
     "points": 70,
     "category": "cleanup",
@@ -109,7 +133,9 @@ export default [
   },
   {
     "title": "Switch to LED Bulbs",
+    "titleAR": "استخدم مصابيح LED",
     "description": "Replace all your home light bulbs with energy-efficient LED bulbs.",
+    "descriptionAR": "استبدل جميع مصابيح منزلك بمصابيح LED الموفرة للطاقة.",
     "image": "/images/led.jpg",
     "points": 20,
     "category": "environment",
@@ -118,7 +144,9 @@ export default [
   },
   {
     "title": "Install Solar Panels",
+    "titleAR": "ركب الألواح الشمسية",
     "description": "Install solar panels to power your home with clean energy.",
+    "descriptionAR": "قم بتركيب الألواح الشمسية لتزويد منزلك بالطاقة النظيفة.",
     "image": "/images/solar.jpg",
     "points": 100,
     "category": "environment",
@@ -127,7 +155,9 @@ export default [
   },
   {
     "title": "Participate in Tree Planting",
+    "titleAR": "شارك في زراعة الأشجار",
     "description": "Join a local tree planting event.",
+    "descriptionAR": "انضم إلى حدث لزراعة الأشجار في منطقتك.",
     "image": "/images/event.jpg",
     "points": 40,
     "category": "planting",
@@ -136,7 +166,9 @@ export default [
   },
   {
     "title": "Upcycle Old Items",
+    "titleAR": "أعد تدوير العناصر القديمة",
     "description": "Turn old items into something new and useful, instead of throwing them away.",
+    "descriptionAR": "حوّل العناصر القديمة إلى شيء جديد ومفيد بدلاً من رميها.",
     "image": "/images/upcycle.jpg",
     "points": 25,
     "category": "environment",
@@ -145,7 +177,9 @@ export default [
   },
   {
     "title": "Conserve Energy",
+    "titleAR": "وفر الطاقة",
     "description": "Unplug devices when not in use to save energy.",
+    "descriptionAR": "افصل الأجهزة عند عدم استخدامها لتوفير الطاقة.",
     "image": "/images/energy.jpg",
     "points": 15,
     "category": "environment",
@@ -154,7 +188,9 @@ export default [
   },
   {
     "title": "Avoid Using a Car for a Day",
+    "titleAR": "تجنب استخدام السيارة ليوم واحد",
     "description": "Go car-free for an entire day and use alternate modes of transport.",
+    "descriptionAR": "تجنب استخدام السيارة ليوم كامل واستخدم وسائل النقل البديلة.",
     "image": "/images/car.jpg",
     "points": 50,
     "category": "environment",
@@ -163,7 +199,9 @@ export default [
   },
   {
     "title": "Use a Reusable Water Bottle",
+    "titleAR": "استخدم زجاجة ماء قابلة لإعادة الاستخدام",
     "description": "Ditch plastic bottles and carry a reusable water bottle.",
+    "descriptionAR": "تخلص من الزجاجات البلاستيكية واحمل زجاجة ماء قابلة لإعادة الاستخدام.",
     "image": "/images/water_bottle.jpg",
     "points": 10,
     "category": "environment",
@@ -172,7 +210,9 @@ export default [
   },
   {
     "title": "Start a Garden",
+    "titleAR": "ابدأ حديقة",
     "description": "Start a small home garden to grow your own fruits and vegetables.",
+    "descriptionAR": "ابدأ حديقة منزلية صغيرة لزراعة الفواكه والخضروات.",
     "image": "/images/garden.jpg",
     "points": 35,
     "category": "planting",

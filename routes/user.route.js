@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  updateUserController,
+  updateUsernameController,
   deleteUserController,
   getUserController,
   unfollowUserController,
@@ -12,7 +12,7 @@ import { parser } from "../config/cloudinary.js";
 
 const router = express.Router();
 
-router.put("/:id", updateUserController);
+router.put("/:id", updateUsernameController);
 
 router.delete("/:id", deleteUserController);
 

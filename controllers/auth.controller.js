@@ -1,5 +1,5 @@
 
-import { registerUser, loginUser } from "../services/auth.service.js"
+import { registerUser, loginUser, updatePasswordService } from "../services/auth.service.js"
 
 
 export const register = async (req, res) => {
@@ -51,3 +51,27 @@ export const login = async (req, res) => {
   }
 };
 
+export const updatePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const userId = req.params.id;
+
+  try {
+
+
+    const isUpdated = await updatePasswordService(userId, oldPassword, newPassword);
+
+    if (!isUpdated) {
+      return res.status(400).json({ message: "Failed to update password" });
+    }
+
+    res.status(200).json({
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.error("Error in updatePassword controller:", error.message);
+    res.status(500).json({
+      message: "Error occurred while updating password",
+      error: error.message,  // Include error message here
+    });
+  }
+};

@@ -6,7 +6,16 @@ const challengeSchema = new Schema({
     type: String,
     required: true,
   },
+  titleAR: {
+    type: String,
+    required: true,
+
+  },
   description: {
+    type: String,
+    required: true,
+  },
+  descriptionAR: {
     type: String,
     required: true,
   },
