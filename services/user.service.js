@@ -34,6 +34,12 @@ export const updateUsername = async (userId, newUsername) => {
             return { message: "The new username is the same as the current username." };
         }
 
+        // Check if the new username is already taken
+        const existingUser = await userModel.findOne({ username: newUsername });
+        if (existingUser) {
+            return { message: "This username is already taken." };
+        }
+
         // Proceed with the update
         const updatedUser = await userModel.findByIdAndUpdate(
             userId,
