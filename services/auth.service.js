@@ -3,6 +3,10 @@ import bcrypt from "bcrypt";
 
 export const registerUser = async (body) => {
     try {
+
+        if (!body.password) {
+            throw new Error("Password is required");
+        }
         const hashedPassword = await bcrypt.hash(body.password, 10);
 
         const newUser = new userModel({
