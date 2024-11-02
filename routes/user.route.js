@@ -12,7 +12,7 @@ import { parser } from "../config/cloudinary.js";
 
 const router = express.Router();
 
-router.put("/:id", updateUsernameController);
+router.put("/update-username/:id", updateUsernameController);
 
 router.delete("/:id", deleteUserController);
 
